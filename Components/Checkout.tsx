@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { DatePicker } from "@nextui-org/date-picker";
 import { TimeInput } from "@nextui-org/date-input";
 import { parseDate, parseTime } from "@internationalized/date";
+import axios from "axios";
 import {
   Calendar,
   Users,
@@ -153,42 +154,59 @@ const Checkout = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-    if (!formData.facebookLink) {
-      alert("Please provide your Facebook name or link");
-      return;
+  // Validate required fields
+  if (
+    !formData.firstName ||
+    !formData.lastName ||
+    !formData.email ||
+    !formData.phone ||
+    !formData.paymentProof
+  ) {
+    alert("Please fill in all required fields and upload proof of payment");
+    return;
+  }
+
+  try {
+    // Generate booking ID
+    const bookingId = `BK${Date.now()}`;
+
+    // Prepare booking data for email
+    const bookingEmailData = {
+      bookingId,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      roomName: bookingData.selectedRoom?.name || 'Standard Room',
+      checkInDate: bookingData.checkInDate,
+      checkOutDate: bookingData.checkOutDate,
+      checkInTime: formData.checkInTime,
+      checkOutTime: formData.checkOutTime,
+      guests: `${bookingData.guests.adults} Adults, ${bookingData.guests.children} Children, ${bookingData.guests.infants} Infants`,
+      paymentMethod: formData.paymentMethod,
+      totalAmount: totalAmount,
+      downPayment: downPayment,
+    };
+
+    // Send email using axios
+    const response = await axios.post('/api/send-booking-email', bookingEmailData);
+
+    if (response.data.success) {
+      alert(`Booking Confirmed! Your booking ID is: ${bookingId}\n\nA confirmation email has been sent to ${formData.email}`);
+      
+      // Clear form and redirect
+      router.push('/');
+    } else {
+      alert('Booking saved, but email failed to send. Please contact support.');
     }
 
-    if (!formData.paymentProof) {
-      alert("Please upload proof of payment");
-      return;
-    }
-
-    if (!formData.termsAccepted) {
-      alert("Please accept the terms and conditions");
-      return;
-    }
-
-    // Here you would typically send the booking data to your backend
-    console.log("Booking submitted:", {
-      ...formData,
-      addOns,
-      bookingDetails: bookingData,
-      pricing: {
-        roomRate,
-        securityDeposit,
-        addOnsTotal,
-        totalAmount,
-        downPayment,
-        remainingBalance,
-      },
-    });
-
-    alert("Booking submitted successfully! Your booking is pending CSR verification.");
-    router.push("/");
-  };
+  } catch (error) {
+    console.error('Booking error:', error);
+    alert('An error occurred. Please try again or contact support.');
+  }
+};
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12">
