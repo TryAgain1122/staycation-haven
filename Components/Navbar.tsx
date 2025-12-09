@@ -38,16 +38,25 @@ const Navbar = () => {
             let href = "/";
             if (item === "Contacts") href = "/Contacts";
             else if (item === "Location") href = "/Location";
-            else if (item === "Login") href = "/Login"
+            else if (item === "Login") href = "/Login";
+            else if (item === "Havens") href = "/Rooms";
+
+            const isActive = pathname === href;
 
             return (
               <Link key={idx} href={href}>
                 <div className="relative cursor-pointer group">
-                  <span className="text-gray-700 hover:text-yellow-600 transition-colors duration-300 font-medium">
+                  <span className={`${
+                    isActive
+                      ? "text-orange-600 font-semibold"
+                      : "text-gray-700 hover:text-yellow-600"
+                  } transition-colors duration-300 font-medium`}>
                     {item}
                   </span>
-                  {/* Animated underline */}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-yellow-500 to-orange-500 group-hover:w-full transition-all duration-300"></span>
+                  {/* Animated underline - always visible when active */}
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-yellow-500 to-orange-500 transition-all duration-300 ${
+                    isActive ? "w-full" : "w-0 group-hover:w-full"
+                  }`}></span>
                 </div>
               </Link>
             );
@@ -96,7 +105,10 @@ const Navbar = () => {
             let href = "/";
             if (item === "Contacts") href = "/Contacts";
             else if (item === "Location") href = "/Location";
-            else if (item === "Login") href = "/Login"
+            else if (item === "Login") href = "/Login";
+            else if (item === "Havens") href = "/Rooms";
+
+            const isActive = pathname === href;
 
             return (
               <div
@@ -109,7 +121,11 @@ const Navbar = () => {
                 style={{ transitionDelay: `${idx * 50}ms` }}
               >
                 <Link href={href}>
-                  <div className="text-gray-700 hover:text-yellow-600 transition-colors duration-300 font-medium py-2 px-4 rounded-lg hover:bg-yellow-50 cursor-pointer">
+                  <div className={`${
+                    isActive
+                      ? "text-orange-600 bg-orange-50 font-semibold border-l-4 border-orange-600"
+                      : "text-gray-700 hover:text-yellow-600 hover:bg-yellow-50"
+                  } transition-colors duration-300 font-medium py-2 px-4 rounded-lg cursor-pointer`}>
                     {item}
                   </div>
                 </Link>
