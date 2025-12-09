@@ -7,6 +7,7 @@ import Spinner from "./Spinner"
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/redux/hooks";
 import { setCheckInDate, setCheckOutDate, setGuests } from "@/redux/slices/bookingSlice";
+import { signIn } from "next-auth/react";
 
 interface SocialLoginOption {
   id: string;
@@ -45,13 +46,23 @@ const Login = () => {
     },
   ];
 
-  const handleSocialLogin = (provider: string) => {
+  const handleSocialLogin = async (provider: string) => {
     setIsLoading(true);
 
-    setTimeout(() => {
-      alert(`Logging in with ${provider}...`);
+    try {
+      if (provider.toLowerCase() === "google") {
+        // NextAuth Google sign in - redirects to /Rooms after successful login
+        await signIn("google", { callbackUrl: "/Rooms" });
+      } else {
+        // For other providers not yet implemented
+        alert(`${provider} login not yet implemented`);
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("An error occurred during login");
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   const handleGuestLogin = () => {
@@ -109,7 +120,7 @@ const Login = () => {
             Welcome Back
           </h2>
           <p className="text-gray-600 text-center mb-8">
-            Choose how you'd like to continue
+            Choose how you would like to continue
           </p>
 
           {/* Connect With Section */}
