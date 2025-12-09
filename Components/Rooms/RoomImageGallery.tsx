@@ -62,15 +62,15 @@ const RoomImageGallery = ({ images }: RoomImageGalleryProps) => {
       )}
 
       {/* Image Indicators */}
-      <div className="absolute bottom-3 left-1/2 -translate-x-0-1/2 flex gap-2">
+      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
         {images.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentImageIndex(index)}
             className={`w-2 h-2 rounded-full transition-all duration-300 ${
               index === currentImageIndex
-                ? "bg-white w-6"
-                : "bg-white/60 hover:bg-white/80"
+                ? "bg-gradient-to-r from-yellow-500 to-orange-500 w-6"
+                : "bg-white/60 hover:bg-orange-300"
             }`}
             aria-label={`Go to image ${index + 1}`}
           />
