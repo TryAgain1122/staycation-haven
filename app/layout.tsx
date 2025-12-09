@@ -30,8 +30,8 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`} suppressHydrationWarning>
         <UIProviders>
           <Proviers>
-          <Navbar />
-          {children}
+            <Navbar />
+            {children}
           </Proviers>
         </UIProviders>
       </body>
