@@ -1,14 +1,36 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
+import { User, LogOut, ChevronDown } from "lucide-react";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const pathname = usePathname();
+  const { data: session, status } = useSession();
+  const profileRef = useRef<HTMLDivElement>(null);
 
   const menuItems = ["Havens", "Contacts", "Location", "About"];
+
+  // Close profile dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+        setIsProfileOpen(false);
+      }
+    };
+
+    if (isProfileOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isProfileOpen]);
 
   // Hide navbar on Login page
   if (pathname === "/Login") {
@@ -38,27 +60,95 @@ const Navbar = () => {
             let href = "/";
             if (item === "Contacts") href = "/Contacts";
             else if (item === "Location") href = "/Location";
-            else if (item === "Login") href = "/Login"
+            else if (item === "Login") href = "/Login";
+            else if (item === "Havens") href = "/Rooms";
+
+            const isActive = pathname === href;
 
             return (
               <Link key={idx} href={href}>
                 <div className="relative cursor-pointer group">
-                  <span className="text-gray-700 hover:text-yellow-600 transition-colors duration-300 font-medium">
+                  <span className={`${
+                    isActive
+                      ? "text-orange-600 font-semibold"
+                      : "text-gray-700 hover:text-yellow-600"
+                  } transition-colors duration-300 font-medium`}>
                     {item}
                   </span>
-                  {/* Animated underline */}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-yellow-500 to-orange-500 group-hover:w-full transition-all duration-300"></span>
+                  {/* Animated underline - always visible when active */}
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-yellow-500 to-orange-500 transition-all duration-300 ${
+                    isActive ? "w-full" : "w-0 group-hover:w-full"
+                  }`}></span>
                 </div>
               </Link>
             );
           })}
 
-          {/* CTA Button */}
-          <Link href="/Login">
-            <button className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-6 py-2 rounded-full font-medium transform hover:scale-105 transition-all duration-300 shadow-md hover:shadow-lg active:scale-95">
-              Sign In
-            </button>
-          </Link>
+          {/* CTA Button / User Profile */}
+          {status === "loading" ? (
+            <div className="w-10 h-10 rounded-full bg-gray-200 animate-pulse"></div>
+          ) : session?.user ? (
+            <div className="relative" ref={profileRef}>
+              <button
+                onClick={() => setIsProfileOpen(!isProfileOpen)}
+                className="flex items-center gap-3 px-4 py-2 rounded-full bg-gradient-to-r from-yellow-50 to-orange-50 hover:from-yellow-100 hover:to-orange-100 border-2 border-orange-200 transition-all duration-300 transform hover:scale-105"
+              >
+                {session.user.image ? (
+                  <img
+                    src={session.user.image}
+                    alt={session.user.name || "User"}
+                    className="w-8 h-8 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 flex items-center justify-center">
+                    <User className="w-5 h-5 text-white" />
+                  </div>
+                )}
+                <span className="font-semibold text-gray-800 max-w-32 truncate">
+                  {session.user.name}
+                </span>
+                <ChevronDown className={`w-4 h-4 text-gray-600 transition-transform duration-300 ${isProfileOpen ? "rotate-180" : ""}`} />
+              </button>
+
+              {/* Profile Dropdown */}
+              {isProfileOpen && (
+                <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden z-50 animate-slide-down">
+                  <div className="p-4 bg-gradient-to-r from-yellow-50 to-orange-50 border-b border-gray-100">
+                    <div className="flex items-center gap-3">
+                      {session.user.image ? (
+                        <img
+                          src={session.user.image}
+                          alt={session.user.name || "User"}
+                          className="w-12 h-12 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-12 h-12 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 flex items-center justify-center">
+                          <User className="w-6 h-6 text-white" />
+                        </div>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-gray-800 truncate">{session.user.name}</p>
+                        <p className="text-sm text-gray-600 truncate">{session.user.email}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => signOut({ callbackUrl: "/Login" })}
+                    className="w-full px-4 py-3 flex items-center gap-3 hover:bg-red-50 transition-colors duration-200 text-red-600 font-medium"
+                  >
+                    <LogOut className="w-5 h-5" />
+                    <span>Sign Out</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link href="/Login">
+              <button className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-6 py-2 rounded-full font-medium transform hover:scale-105 transition-all duration-300 shadow-md hover:shadow-lg active:scale-95">
+                Sign In
+              </button>
+            </Link>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -96,7 +186,10 @@ const Navbar = () => {
             let href = "/";
             if (item === "Contacts") href = "/Contacts";
             else if (item === "Location") href = "/Location";
-            else if (item === "Login") href = "/Login"
+            else if (item === "Login") href = "/Login";
+            else if (item === "Havens") href = "/Rooms";
+
+            const isActive = pathname === href;
 
             return (
               <div
@@ -109,7 +202,11 @@ const Navbar = () => {
                 style={{ transitionDelay: `${idx * 50}ms` }}
               >
                 <Link href={href}>
-                  <div className="text-gray-700 hover:text-yellow-600 transition-colors duration-300 font-medium py-2 px-4 rounded-lg hover:bg-yellow-50 cursor-pointer">
+                  <div className={`${
+                    isActive
+                      ? "text-orange-600 bg-orange-50 font-semibold border-l-4 border-orange-600"
+                      : "text-gray-700 hover:text-yellow-600 hover:bg-yellow-50"
+                  } transition-colors duration-300 font-medium py-2 px-4 rounded-lg cursor-pointer`}>
                     {item}
                   </div>
                 </Link>
@@ -117,7 +214,7 @@ const Navbar = () => {
             );
           })}
 
-          {/* Mobile CTA Button */}
+          {/* Mobile CTA Button / User Profile */}
           <div
             className={`transform transition-all duration-300 ${
               isMenuOpen
@@ -126,11 +223,44 @@ const Navbar = () => {
             }`}
             style={{ transitionDelay: `${menuItems.length * 50}ms` }}
           >
-            <Link href="/Login">
-              <button className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-6 py-3 rounded-lg font-medium transform hover:scale-105 transition-all duration-300 shadow-md">
-                Sign In
-              </button>
-            </Link>
+            {status === "loading" ? (
+              <div className="w-full h-12 rounded-lg bg-gray-200 animate-pulse"></div>
+            ) : session?.user ? (
+              <div className="space-y-3">
+                {/* User Info */}
+                <div className="flex items-center gap-3 p-3 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg border-2 border-orange-200">
+                  {session.user.image ? (
+                    <img
+                      src={session.user.image}
+                      alt={session.user.name || "User"}
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 flex items-center justify-center">
+                      <User className="w-6 h-6 text-white" />
+                    </div>
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-gray-800 truncate">{session.user.name}</p>
+                    <p className="text-sm text-gray-600 truncate">{session.user.email}</p>
+                  </div>
+                </div>
+                {/* Sign Out Button */}
+                <button
+                  onClick={() => signOut({ callbackUrl: "/Login" })}
+                  className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition-all duration-300 shadow-md"
+                >
+                  <LogOut className="w-5 h-5" />
+                  <span>Sign Out</span>
+                </button>
+              </div>
+            ) : (
+              <Link href="/Login">
+                <button className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-6 py-3 rounded-lg font-medium transform hover:scale-105 transition-all duration-300 shadow-md">
+                  Sign In
+                </button>
+              </Link>
+            )}
           </div>
         </div>
       </div>
@@ -154,6 +284,19 @@ const Navbar = () => {
         }
         .animate-fade-in {
           animation: fade-in 0.3s ease-out;
+        }
+        @keyframes slide-down {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-slide-down {
+          animation: slide-down 0.2s ease-out;
         }
       `}</style>
     </nav>
