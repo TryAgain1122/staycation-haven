@@ -22,6 +22,7 @@ import {
   Home,
   CreditCard,
 } from "lucide-react";
+import Spinner from "./Spinner";
 
 interface AddOns {
   poolPass: number;
@@ -46,6 +47,7 @@ const Checkout = () => {
   const dispatch = useAppDispatch();
   const bookingData = useAppSelector((state) => state.booking);
 
+  const [isLoading, setIsLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(1); // 1 = Guest Info, 2 = Confirmation & Payment
 
   const [formData, setFormData] = useState({
@@ -191,18 +193,21 @@ const handleSubmit = async (e: React.FormEvent) => {
     };
 
     // Send email using axios
+    setIsLoading(true);
     const response = await axios.post('/api/send-booking-email', bookingEmailData);
 
     if (response.data.success) {
       alert(`Booking Confirmed! Your booking ID is: ${bookingId}\n\nA confirmation email has been sent to ${formData.email}`);
-      
+
       // Clear form and redirect
       router.push('/');
     } else {
+      setIsLoading(false);
       alert('Booking saved, but email failed to send. Please contact support.');
     }
 
   } catch (error) {
+    setIsLoading(false);
     console.error('Booking error:', error);
     alert('An error occurred. Please try again or contact support.');
   }
@@ -998,9 +1003,20 @@ const handleSubmit = async (e: React.FormEvent) => {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-bold py-4 rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg"
+                  disabled={isLoading}
+                  className="flex-1 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-bold py-4 rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
-                  Confirm Booking
+                  {isLoading ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Processing...
+                    </span>
+                  ) : (
+                    'Confirm to Stay'
+                  )}
                 </button>
               </div>
             </div>
