@@ -133,8 +133,8 @@ const SearchBarSticky = () => {
 
   return (
     <div
-      className={`fixed top-16 left-0 right-0 z-40 px-4 sm:px-6 lg:px-8 bg-cover bg-center transition-all duration-500 ease-in-out ${
-        isScrolled ? 'py-3 pb-6' : 'py-20 pb-24'
+      className={`fixed top-16 left-0 right-0 z-40 px-3 sm:px-4 md:px-6 lg:px-8 bg-cover bg-center transition-all duration-500 ease-in-out ${
+        isScrolled ? 'py-2 pb-4 sm:py-3 sm:pb-6' : 'py-8 pb-12 sm:py-12 sm:pb-16 md:py-20 md:pb-24'
       }`}
       style={{
         backgroundImage: "url('/Images/bg.jpg')",
@@ -160,13 +160,13 @@ const SearchBarSticky = () => {
           </p>
         </div>
 
-        {/* Search Card */}
+        {/* Search Card - Improved mobile responsiveness */}
         <div className={`bg-white rounded-xl transition-all duration-500 ease-in-out ${
-          isScrolled ? 'p-3 sm:p-4' : 'p-5 sm:p-7'
+          isScrolled ? 'p-2 sm:p-3 md:p-4' : 'p-4 sm:p-5 md:p-7'
         }`}>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-3 lg:gap-4">
             {/* Location Selector */}
-            <div className="sm:col-span-1 h-14">
+            <div className="sm:col-span-1 h-12 sm:h-14">
               <LocationSelector
                 selectedLocation={selectedLocation}
                 onLocationSelect={(location) => {
@@ -200,14 +200,14 @@ const SearchBarSticky = () => {
             <div className="sm:col-span-1">
               <button
                 onClick={() => setIsGuestModalOpen(true)}
-                className="w-full flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-3 bg-white rounded-lg border border-gray-200 hover:border-orange-400 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-orange-500 h-14 min-h-[56px] hover:shadow-md"
+                className="w-full flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-3 bg-white rounded-lg border border-gray-200 hover:border-orange-400 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-orange-500 h-12 sm:h-14 hover:shadow-md"
               >
                 <Users className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500 flex-shrink-0" />
                 <div className="flex-1 text-left min-w-0">
-                  <p className="text-xs sm:text-sm text-gray-500 truncate">
+                  <p className="text-xs text-gray-500 truncate">
                     Who
                   </p>
-                  <p className="text-xs sm:text-sm md:text-base font-semibold text-gray-800 truncate">
+                  <p className="text-sm sm:text-base font-semibold text-gray-800 truncate">
                     {totalGuests} {totalGuests === 1 ? "Guest" : "Guests"}
                   </p>
                 </div>
