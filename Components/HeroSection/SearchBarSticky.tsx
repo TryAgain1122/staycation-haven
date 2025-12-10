@@ -134,7 +134,7 @@ const SearchBarSticky = () => {
   return (
     <div
       className={`fixed top-16 left-0 right-0 z-40 px-4 sm:px-6 lg:px-8 bg-cover bg-center transition-all duration-500 ease-in-out ${
-        isScrolled ? 'py-3 pb-6' : 'py-12 pb-16'
+        isScrolled ? 'py-3 pb-6' : 'py-20 pb-24'
       }`}
       style={{
         backgroundImage: "url('/Images/bg.jpg')",
