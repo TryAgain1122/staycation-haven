@@ -62,12 +62,13 @@ const Navbar = () => {
             else if (item === "Location") href = "/Location";
             else if (item === "Login") href = "/Login";
             else if (item === "Havens") href = "/Rooms";
+            else if (item === "About") href = "/About";
 
             const isActive = pathname === href;
 
             return (
               <Link key={idx} href={href}>
-                <div className="relative cursor-pointer group">
+                <div className="cursor-pointer">
                   <span className={`${
                     isActive
                       ? "text-orange-600 font-semibold"
@@ -75,10 +76,6 @@ const Navbar = () => {
                   } transition-colors duration-300 font-medium`}>
                     {item}
                   </span>
-                  {/* Animated underline - always visible when active */}
-                  <span className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-yellow-500 to-orange-500 transition-all duration-300 ${
-                    isActive ? "w-full" : "w-0 group-hover:w-full"
-                  }`}></span>
                 </div>
               </Link>
             );
@@ -188,6 +185,7 @@ const Navbar = () => {
             else if (item === "Location") href = "/Location";
             else if (item === "Login") href = "/Login";
             else if (item === "Havens") href = "/Rooms";
+            else if (item === "About") href = "/About";
 
             const isActive = pathname === href;
 
