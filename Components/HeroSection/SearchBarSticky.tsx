@@ -57,7 +57,7 @@ const SearchBarSticky = () => {
   // Track scroll position for dynamic height
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
+      if (window.scrollY > 100) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);

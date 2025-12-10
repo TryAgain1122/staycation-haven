@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { getAllUsers, findUserByEmail } from "@/backend/userService";
+import { getAllUsers, findUserByEmail } from "@/backend/controller/userController";
 
 // GET all users or current user
 export async function GET(req: Request) {
