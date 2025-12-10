@@ -6,8 +6,8 @@ export default function RoomsPage() {
   return (
     <>
       <SearchBarSticky />
-      {/* Add top padding to account for fixed header + sticky search bar (90% height) */}
-      <div className="pt-[600px] sm:pt-[550px]">
+      {/* Add top padding to account for fixed header + sticky search bar - responsive sizing */}
+      <div className="pt-[280px] sm:pt-[320px] md:pt-[400px] lg:pt-[450px]">
         <HotelRoomListings />
       </div>
       <Footer />
