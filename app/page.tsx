@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
-
+import db from '../backend/config/db';
 export default function Home() {
-  redirect('/Rooms');
+  db;
+ return redirect('/Rooms');
 }
