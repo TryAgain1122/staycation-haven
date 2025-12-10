@@ -257,32 +257,8 @@ const HotelRoomListings = () => {
   ]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 sm:py-16 lg:py-20">
+    <div className="min-h-screen bg-white py-8 sm:py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-12 animate-in-fade-in slide-in-from-top duration-700">
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-800 mb-3">
-            Our Available Rooms
-          </h1>
-          <p>
-            Choose from our wide selection of comfotable and luxurious rooms
-          </p>
-        </div>
-
-        {/* Filter/Sort Section */}
-        <div
-          className="flex justify-between items-center mb-8 animate-fade-in duration-700"
-          style={{ animationDelay: "100ms" }}
-        >
-          <h2>{rooms.length} Rooms Available</h2>
-          <select className="">
-            <option>Sort By Price: Low to High</option>
-            <option>Sort By Price: High to Low</option>
-            <option>Sort By Rating</option>
-            <option>Newest First</option>
-          </select>
-        </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {rooms.map((room, index) => (
             <div
@@ -293,15 +269,6 @@ const HotelRoomListings = () => {
               <RoomCard room={room} mode="browse" />
             </div>
           ))}
-        </div>
-        <div className="flex justify-center flex-col items-center text-center mt-14">
-          <span className="text-gray-600 text-2xl font-semibold">
-            Ready to your Perfect Staycation
-          </span>
-          <button className="mt-6 px-6 py-3 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white rounded-lg shadow-lg font-semibold transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center gap-2">
-            <Search className="w-5 h-5" />
-            <span>Find Your Haven</span>
-          </button>
         </div>
       </div>
     </div>

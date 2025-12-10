@@ -38,7 +38,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="fixed w-full h-16 px-6 bg-white shadow-md z-50">
+    <nav className="fixed w-full h-16 px-6 bg-white z-50">
       <div className="h-full flex items-center justify-between max-w-7xl mx-auto">
         {/* Logo with animation */}
         <Link href={"/"}>
