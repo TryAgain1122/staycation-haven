@@ -129,6 +129,15 @@ const Navbar = () => {
                       </div>
                     </div>
                   </div>
+                  <Link href="/Profile">
+                    <button
+                      onClick={() => setIsProfileOpen(false)}
+                      className="w-full px-4 py-3 flex items-center gap-3 hover:bg-orange-50 transition-colors duration-200 text-gray-700 font-medium"
+                    >
+                      <User className="w-5 h-5" />
+                      <span>My Profile</span>
+                    </button>
+                  </Link>
                   <button
                     onClick={() => signOut({ callbackUrl: "/Login" })}
                     className="w-full px-4 py-3 flex items-center gap-3 hover:bg-red-50 transition-colors duration-200 text-red-600 font-medium"
@@ -243,6 +252,16 @@ const Navbar = () => {
                     <p className="text-sm text-gray-600 truncate">{session.user.email}</p>
                   </div>
                 </div>
+                {/* Profile Button */}
+                <Link href="/Profile">
+                  <button
+                    onClick={() => setIsMenuOpen(false)}
+                    className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white rounded-lg font-medium transition-all duration-300 shadow-md"
+                  >
+                    <User className="w-5 h-5" />
+                    <span>My Profile</span>
+                  </button>
+                </Link>
                 {/* Sign Out Button */}
                 <button
                   onClick={() => signOut({ callbackUrl: "/Login" })}
