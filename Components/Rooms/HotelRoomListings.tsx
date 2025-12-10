@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import RoomCard from "./RoomCard";
-import { Search } from "lucide-react";
+import { SlidersHorizontal } from "lucide-react";
 
 interface Room {
   id: string;
@@ -23,6 +23,7 @@ interface Room {
 }
 
 const HotelRoomListings = () => {
+  const [sortBy, setSortBy] = useState<string>("recommended");
   const [rooms] = useState<Room[]>([
     {
       id: "1",
@@ -259,6 +260,31 @@ const HotelRoomListings = () => {
   return (
     <div className="min-h-screen bg-white py-8 sm:py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Filter Section */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+          {/* Available Rooms Text */}
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
+            Available Rooms
+          </h2>
+
+          {/* Filter Dropdown */}
+          <div className="flex items-center gap-3 w-full sm:w-auto">
+            <SlidersHorizontal className="w-5 h-5 text-gray-600 flex-shrink-0" />
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="flex-1 sm:flex-initial px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 cursor-pointer hover:border-gray-400 transition-all duration-300 text-sm sm:text-base"
+            >
+              <option value="recommended">Recommended</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="rating">Highest Rating</option>
+              <option value="capacity">Capacity</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Room Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {rooms.map((room, index) => (
             <div
