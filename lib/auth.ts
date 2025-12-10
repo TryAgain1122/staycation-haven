@@ -1,6 +1,6 @@
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { upsertUser } from "@/backend/userService";
+import { upsertUser } from "@/backend/controller/userController";
 
 export const authOptions: NextAuthOptions = {
   providers: [
