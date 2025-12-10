@@ -8,6 +8,7 @@ import { DatePicker } from "@nextui-org/date-picker";
 import { TimeInput } from "@nextui-org/date-input";
 import { parseDate, parseTime } from "@internationalized/date";
 import axios from "axios";
+import toast from "react-hot-toast";
 import {
   Calendar,
   Users,
@@ -133,15 +134,15 @@ const Checkout = () => {
     if (currentStep === 1) {
       // Validate Step 1
       if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone) {
-        alert("Please fill in all required fields");
+        toast.error("Please fill in all required fields");
         return;
       }
       if (totalGuests > 4) {
-        alert("Maximum 4 guests allowed");
+        toast.error("Maximum 4 guests allowed");
         return;
       }
       if (!formData.checkInTime || !formData.checkOutTime) {
-        alert("Please select check-in and check-out times");
+        toast.error("Please select check-in and check-out times");
         return;
       }
       setCurrentStep(2);
@@ -167,25 +168,60 @@ const handleSubmit = async (e: React.FormEvent) => {
     !formData.phone ||
     !formData.paymentProof
   ) {
-    alert("Please fill in all required fields and upload proof of payment");
+    toast.error("Please fill in all required fields and upload proof of payment", {
+      duration: 4000,
+      position: 'top-center',
+    });
     return;
   }
 
   try {
-    // Generate booking ID
-    const bookingId = `BK${Date.now()}`;
+    // Generate booking ID in format: SH-YYYYMMDD-XXX
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const randomNum = String(Math.floor(Math.random() * 999) + 1).padStart(3, '0');
+    const bookingId = `SH-${year}${month}${day}-${randomNum}`;
 
-    // Prepare booking data for email
+    // Format date to "Dec 12, 2025" format
+    const formatDate = (dateString: string) => {
+      const date = new Date(dateString);
+      const options: Intl.DateTimeFormatOptions = {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      };
+      return date.toLocaleDateString('en-US', options);
+    };
+
+    // Format time to 12-hour format with AM/PM
+    const formatTime = (timeString: string) => {
+      if (!timeString) return '';
+
+      // Parse and format to 12-hour time with AM/PM
+      const date = new Date(`2000-01-01T${timeString}`);
+      const options: Intl.DateTimeFormatOptions = {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true,
+        timeZone: 'Asia/Manila'
+      };
+
+      return date.toLocaleTimeString('en-US', options);
+    };
+
+    // Prepare booking data for email with formatted dates and times
     const bookingEmailData = {
       bookingId,
       firstName: formData.firstName,
       lastName: formData.lastName,
       email: formData.email,
       roomName: bookingData.selectedRoom?.name || 'Standard Room',
-      checkInDate: bookingData.checkInDate,
-      checkOutDate: bookingData.checkOutDate,
-      checkInTime: formData.checkInTime,
-      checkOutTime: formData.checkOutTime,
+      checkInDate: formatDate(bookingData.checkInDate),
+      checkOutDate: formatDate(bookingData.checkOutDate),
+      checkInTime: formatTime(formData.checkInTime),
+      checkOutTime: formatTime(formData.checkOutTime),
       guests: `${bookingData.guests.adults} Adults, ${bookingData.guests.children} Children, ${bookingData.guests.infants} Infants`,
       paymentMethod: formData.paymentMethod,
       totalAmount: totalAmount,
@@ -197,19 +233,30 @@ const handleSubmit = async (e: React.FormEvent) => {
     const response = await axios.post('/api/send-booking-email', bookingEmailData);
 
     if (response.data.success) {
-      alert(`Booking Confirmed! Your booking ID is: ${bookingId}\n\nA confirmation email has been sent to ${formData.email}`);
+      toast.success(`🎉 Booking Confirmed! Your booking ID is: ${bookingId}. Check your email for confirmation.`, {
+        duration: 5000,
+        position: 'top-center',
+      });
 
       // Clear form and redirect
-      router.push('/');
+      setTimeout(() => {
+        router.push('/');
+      }, 2000);
     } else {
       setIsLoading(false);
-      alert('Booking saved, but email failed to send. Please contact support.');
+      toast.error('Booking saved, but email failed to send. Please contact support.', {
+        duration: 4000,
+        position: 'top-center',
+      });
     }
 
   } catch (error) {
     setIsLoading(false);
     console.error('Booking error:', error);
-    alert('An error occurred. Please try again or contact support.');
+    toast.error('An error occurred. Please try again or contact support.', {
+      duration: 4000,
+      position: 'top-center',
+    });
   }
 };
 

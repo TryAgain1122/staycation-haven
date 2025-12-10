@@ -4,6 +4,7 @@ import { X } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import StayTypeCard from "../StayTypeCard";
 import { useAppDispatch } from "@/redux/hooks";
+import toast from "react-hot-toast";
 import {
   setStayType,
   setSchedulePreference,
@@ -308,6 +309,12 @@ const StayTypeSelectorModal = ({
                     dispatch(setSchedulePreference(schedule));
                   }
                 }
+
+                // Show success toast
+                toast.success('Great choice! Finding available rooms...', {
+                  duration: 2000,
+                  position: 'top-center',
+                });
 
                 // Close modal
                 onClose();

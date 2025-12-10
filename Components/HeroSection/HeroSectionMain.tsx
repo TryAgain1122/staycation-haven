@@ -9,6 +9,7 @@ import GuestSelectorModal from "./GuestSelectionModal";
 import StayTypeSelectorModal from "./StayTypeSelectorModal";
 import ValidationModal from "./ValidationModal";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 import {
   setLocation as setReduxLocation,
   setCheckInDate as setReduxCheckInDate,
@@ -100,17 +101,24 @@ const HeroSectionMain = () => {
         message += `${missingFields[0]}, ${missingFields[1]}, and ${missingFields[2]}.`;
       }
 
-      setValidationMessage(message);
-      setIsValidationModalOpen(true);
+      toast.error(message, {
+        duration: 3000,
+        position: 'top-center',
+      });
       return;
     }
 
-    //Save to redux before opening modal 
+    //Save to redux before opening modal
     dispatch(setReduxLocation(selectedLocation));
     dispatch(setReduxCheckInDate(checkInDate));
     dispatch(setReduxCheckOutDate(checkOutDate));
     dispatch(setReduxGuests(guests));
     dispatch(setIsFromSearch(true))
+
+    toast.success('Search criteria saved! Select your stay type.', {
+      duration: 2000,
+      position: 'top-center',
+    });
 
     // All fields are valid, proceed
     setIsStayTypeModalOpen(true);

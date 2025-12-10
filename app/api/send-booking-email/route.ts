@@ -5,6 +5,19 @@ export async function POST(request: NextRequest) {
   try {
     const bookingData = await request.json();
 
+     const formatDate = (dateString: string) => {
+      const date = new Date(dateString);
+      const options: Intl.DateTimeFormatOptions = {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      }
+      return date.toLocaleDateString('en-US', options)
+     }
+
+     const formattedCheckIn = formatDate(bookingData.checkInDate);
+     const formattedCheckOut = formatDate(bookingData.checkOutDate)
+
     // Create transporter with your Gmail credentials
     const transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -59,12 +72,12 @@ export async function POST(request: NextRequest) {
               
               <div class="detail-row">
                 <span class="detail-label">Check-in:</span>
-                <span class="detail-value">${bookingData.checkInDate} at ${bookingData.checkInTime}</span>
+                <span class="detail-value">${formattedCheckIn} at ${bookingData.checkInTime}</span>
               </div>
               
               <div class="detail-row">
                 <span class="detail-label">Check-out:</span>
-                <span class="detail-value">${bookingData.checkOutDate} at ${bookingData.checkOutTime}</span>
+                <span class="detail-value">${formattedCheckOut} at ${bookingData.checkOutTime}</span>
               </div>
               
               <div class="detail-row">
