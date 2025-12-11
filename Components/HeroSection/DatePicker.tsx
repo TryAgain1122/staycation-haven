@@ -1,7 +1,8 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { DatePicker as HeroDatePicker } from "@nextui-org/date-picker";
-import { parseDate } from "@internationalized/date";
+import { parseDate, toZoned } from "@internationalized/date";
 
 interface DatePickerProps {
   label: string;
@@ -10,7 +11,18 @@ interface DatePickerProps {
 }
 
 const DatePicker = ({ label, date, onDateChange }: DatePickerProps) => {
-  const selectedDate = date ? parseDate(date) : undefined;
+  const [selectedDate, setSelectedDate] = useState<any>(null);
+
+  // Update selectedDate whenever `date` prop changes
+  useEffect(() => {
+    if (date) {
+      const parsed = parseDate(date); // CalendarDate
+      const zoned = toZoned(parsed, "UTC"); // ZonedDateTime
+      setSelectedDate(zoned);
+    } else {
+      setSelectedDate(null);
+    }
+  }, [date]);
 
   return (
     <div className="relative">
@@ -18,6 +30,7 @@ const DatePicker = ({ label, date, onDateChange }: DatePickerProps) => {
         label={label}
         value={selectedDate}
         onChange={(newDate) => {
+          setSelectedDate(newDate);
           if (newDate) onDateChange(newDate.toString());
         }}
         className="w-full"
