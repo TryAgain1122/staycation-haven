@@ -12,7 +12,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      router.push("/Login");
+      router.push("/login");
     }
   }, [status, router]);
 

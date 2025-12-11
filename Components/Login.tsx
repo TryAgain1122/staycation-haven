@@ -51,8 +51,8 @@ const Login = () => {
 
     try {
       if (provider.toLowerCase() === "google") {
-        // NextAuth Google sign in - redirects to /Rooms after successful login
-        await signIn("google", { callbackUrl: "/Rooms" });
+        // NextAuth Google sign in - redirects to /rooms after successful login
+        await signIn("google", { callbackUrl: "/rooms" });
       } else {
         // For other providers not yet implemented
         alert(`${provider} login not yet implemented`);
@@ -87,8 +87,8 @@ const Login = () => {
     dispatch(setGuests({ adults: 2, children: 0, infants: 0 }));
 
     setTimeout(() => {
-      // Navigate to Rooms page with all rooms showing (no filters)
-      router.push("/Rooms");
+      // Navigate to rooms page with all rooms showing (no filters)
+      router.push("/rooms");
       setIsLoading(false);
     }, 1500);
   };

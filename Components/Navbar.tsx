@@ -13,7 +13,7 @@ const Navbar = () => {
   const { data: session, status } = useSession();
   const profileRef = useRef<HTMLDivElement>(null);
 
-  const menuItems = ["Havens", "Contacts", "Location", "About"];
+  const menuItems = ["havens", "contacts", "location", "about"];
 
   // Close profile dropdown when clicking outside
   useEffect(() => {
@@ -33,7 +33,16 @@ const Navbar = () => {
   }, [isProfileOpen]);
 
   // Hide navbar on Login page
-  if (pathname === "/Login") {
+  if (pathname === "/login") {
+    return null;
+  }
+
+  // Hide navbar on Admin Login page
+  if (pathname === "/admin/login") {
+    return null;
+  }
+
+  if (pathname === "/admin/owners") {
     return null;
   }
 
@@ -58,11 +67,11 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-8">
           {menuItems.map((item, idx) => {
             let href = "/";
-            if (item === "Contacts") href = "/Contacts";
-            else if (item === "Location") href = "/Location";
-            else if (item === "Login") href = "/Login";
-            else if (item === "Havens") href = "/Rooms";
-            else if (item === "About") href = "/About";
+            if (item === "contacts") href = "/contacts";
+            else if (item === "location") href = "/location";
+            else if (item === "login") href = "/login";
+            else if (item === "havens") href = "/rooms";
+            else if (item === "about") href = "/about";
 
             const isActive = pathname === href;
 
@@ -129,7 +138,7 @@ const Navbar = () => {
                       </div>
                     </div>
                   </div>
-                  <Link href="/Profile">
+                  <Link href="/profile">
                     <button
                       onClick={() => setIsProfileOpen(false)}
                       className="w-full px-4 py-3 flex items-center gap-3 hover:bg-orange-50 transition-colors duration-200 text-gray-700 font-medium"
@@ -139,7 +148,7 @@ const Navbar = () => {
                     </button>
                   </Link>
                   <button
-                    onClick={() => signOut({ callbackUrl: "/Login" })}
+                    onClick={() => signOut({ callbackUrl: "/login" })}
                     className="w-full px-4 py-3 flex items-center gap-3 hover:bg-red-50 transition-colors duration-200 text-red-600 font-medium"
                   >
                     <LogOut className="w-5 h-5" />
@@ -149,7 +158,7 @@ const Navbar = () => {
               )}
             </div>
           ) : (
-            <Link href="/Login">
+            <Link href="/login">
               <button className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-6 py-2 rounded-full font-medium transform hover:scale-105 transition-all duration-300 shadow-md hover:shadow-lg active:scale-95">
                 Sign In
               </button>
@@ -190,11 +199,11 @@ const Navbar = () => {
         <div className="px-6 py-4 space-y-4">
           {menuItems.map((item, idx) => {
             let href = "/";
-            if (item === "Contacts") href = "/Contacts";
-            else if (item === "Location") href = "/Location";
-            else if (item === "Login") href = "/Login";
-            else if (item === "Havens") href = "/Rooms";
-            else if (item === "About") href = "/About";
+            if (item === "contacts") href = "/contacts";
+            else if (item === "location") href = "/location";
+            else if (item === "login") href = "/login";
+            else if (item === "havens") href = "/rooms";
+            else if (item === "about") href = "/about";
 
             const isActive = pathname === href;
 
@@ -253,7 +262,7 @@ const Navbar = () => {
                   </div>
                 </div>
                 {/* Profile Button */}
-                <Link href="/Profile">
+                <Link href="/profile">
                   <button
                     onClick={() => setIsMenuOpen(false)}
                     className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white rounded-lg font-medium transition-all duration-300 shadow-md"
@@ -264,7 +273,7 @@ const Navbar = () => {
                 </Link>
                 {/* Sign Out Button */}
                 <button
-                  onClick={() => signOut({ callbackUrl: "/Login" })}
+                  onClick={() => signOut({ callbackUrl: "/login" })}
                   className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition-all duration-300 shadow-md"
                 >
                   <LogOut className="w-5 h-5" />
@@ -272,7 +281,7 @@ const Navbar = () => {
                 </button>
               </div>
             ) : (
-              <Link href="/Login">
+              <Link href="/login">
                 <button className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-6 py-3 rounded-lg font-medium transform hover:scale-105 transition-all duration-300 shadow-md">
                   Sign In
                 </button>

@@ -10,7 +10,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   pages: {
-    signIn: "/Login",
+    signIn: "/login",
   },
   callbacks: {
     async signIn({ user, account, profile }) {

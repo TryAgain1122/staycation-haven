@@ -313,7 +313,7 @@ const StayTypeSelectorModal = ({
                 onClose();
 
                 // Navigate to rooms page
-                router.push("/Rooms");
+                router.push("/rooms");
               }}
               disabled={
                 !selectedStay ||
