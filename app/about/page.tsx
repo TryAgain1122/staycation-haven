@@ -1,36 +1,65 @@
 "use client";
 
-import { Building2, Heart, Shield, Star, Users, Award, Clock, MapPin } from "lucide-react";
+import {
+  Building2,
+  Heart,
+  Shield,
+  Star,
+  Users,
+  Award,
+  Clock,
+  MapPin,
+} from "lucide-react";
 import Footer from "@/Components/Footer";
 
 const AboutPage = () => {
   const stats = [
-    { icon: <Building2 className="w-8 h-8" />, value: "10+", label: "Premium Havens" },
-    { icon: <Users className="w-8 h-8" />, value: "5,000+", label: "Happy Guests" },
-    { icon: <Star className="w-8 h-8" />, value: "4.8", label: "Average Rating" },
-    { icon: <Award className="w-8 h-8" />, value: "100%", label: "Satisfaction Rate" },
+    {
+      icon: <Building2 className="w-8 h-8" />,
+      value: "10+",
+      label: "Premium Havens",
+    },
+    {
+      icon: <Users className="w-8 h-8" />,
+      value: "5,000+",
+      label: "Happy Guests",
+    },
+    {
+      icon: <Star className="w-8 h-8" />,
+      value: "4.8",
+      label: "Average Rating",
+    },
+    {
+      icon: <Award className="w-8 h-8" />,
+      value: "100%",
+      label: "Satisfaction Rate",
+    },
   ];
 
   const values = [
     {
       icon: <Heart className="w-12 h-12 text-orange-500" />,
       title: "Guest-Centered",
-      description: "Your comfort and satisfaction are at the heart of everything we do. We strive to exceed expectations.",
+      description:
+        "Your comfort and satisfaction are at the heart of everything we do. We strive to exceed expectations.",
     },
     {
       icon: <Shield className="w-12 h-12 text-orange-500" />,
       title: "Safety First",
-      description: "We maintain the highest standards of cleanliness and security to ensure your peace of mind.",
+      description:
+        "We maintain the highest standards of cleanliness and security to ensure your peace of mind.",
     },
     {
       icon: <Clock className="w-12 h-12 text-orange-500" />,
       title: "Flexible Options",
-      description: "From 6-hour stays to multi-day bookings, we offer flexible options to fit your schedule.",
+      description:
+        "From 6-hour stays to multi-day bookings, we offer flexible options to fit your schedule.",
     },
     {
       icon: <MapPin className="w-12 h-12 text-orange-500" />,
       title: "Prime Locations",
-      description: "Strategically located in the heart of the city for easy access to everything you need.",
+      description:
+        "Strategically located in the heart of the city for easy access to everything you need.",
     },
   ];
 
@@ -39,7 +68,8 @@ const AboutPage = () => {
       name: "Maria Santos",
       role: "Founder & CEO",
       image: "/Images/shlogo.png",
-      description: "Passionate about creating unique urban staycation experiences.",
+      description:
+        "Passionate about creating unique urban staycation experiences.",
     },
     {
       name: "Juan Dela Cruz",
@@ -67,8 +97,9 @@ const AboutPage = () => {
               </span>
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Your premier destination for flexible, comfortable, and affordable urban staycations.
-              We transform ordinary spaces into extraordinary experiences.
+              Your premier destination for flexible, comfortable, and affordable
+              urban staycations. We transform ordinary spaces into extraordinary
+              experiences.
             </p>
           </div>
         </div>
@@ -109,18 +140,23 @@ const AboutPage = () => {
               </h2>
               <div className="space-y-4 text-gray-600 leading-relaxed">
                 <p>
-                  Founded in 2020, Staycation Haven was born from a simple idea: not everyone needs a
-                  full 24-hour hotel stay. Whether you're traveling through the city, need a comfortable
-                  place to rest between meetings, or want a quick getaway without breaking the bank, we're here for you.
+                  Founded in 2020, Staycation Haven was born from a simple idea:
+                  not everyone needs a full 24-hour hotel stay. Whether
+                  you&#39;re traveling through the city, need a comfortable
+                  place to rest between meetings, or want a quick getaway
+                  without breaking the bank, we&#39;re here for you.
                 </p>
                 <p>
-                  We've revolutionized urban accommodation by offering flexible booking options  from
-                  6-hour quick stays to multi-day retreats. Our havens are designed with modern travelers
-                  in mind, combining comfort, convenience, and affordability.
+                  We&#39;ve revolutionized urban accommodation by offering
+                  flexible booking options – from 6-hour quick stays to
+                  multi-day retreats. Our havens are designed with modern
+                  travelers in mind, combining comfort, convenience, and
+                  affordability.
                 </p>
                 <p>
-                  Today, we're proud to serve thousands of guests across multiple premium locations,
-                  maintaining our commitment to quality, cleanliness, and exceptional service.
+                  Today, we&#39;re proud to serve thousands of guests across
+                  multiple premium locations, maintaining our commitment to
+                  quality, cleanliness, and exceptional service.
                 </p>
               </div>
             </div>
@@ -143,7 +179,8 @@ const AboutPage = () => {
               Our Values
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              The principles that guide us in delivering exceptional staycation experiences
+              The principles that guide us in delivering exceptional staycation
+              experiences
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -153,9 +190,7 @@ const AboutPage = () => {
                 className="text-center p-6 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:scale-105 animate-in fade-in slide-in-from-bottom"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className="flex justify-center mb-4">
-                  {value.icon}
-                </div>
+                <div className="flex justify-center mb-4">{value.icon}</div>
                 <h3 className="text-xl font-bold text-gray-800 mb-3">
                   {value.title}
                 </h3>
@@ -200,9 +235,7 @@ const AboutPage = () => {
                   <p className="text-orange-600 font-semibold mb-3">
                     {member.role}
                   </p>
-                  <p className="text-gray-600 text-sm">
-                    {member.description}
-                  </p>
+                  <p className="text-gray-600 text-sm">{member.description}</p>
                 </div>
               </div>
             ))}
@@ -213,13 +246,12 @@ const AboutPage = () => {
       {/* Mission Statement */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-orange-600 to-yellow-600">
         <div className="max-w-4xl mx-auto text-center text-white">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-6">
-            Our Mission
-          </h2>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-6">Our Mission</h2>
           <p className="text-lg sm:text-xl leading-relaxed opacity-95">
-            To redefine urban accommodation by providing flexible, high-quality staycation options
-            that fit modern lifestyles. We believe everyone deserves a comfortable retreat, whether
-            for a few hours or several days, without compromising on quality or breaking the bank.
+            To redefine urban accommodation by providing flexible, high-quality
+            staycation options that fit modern lifestyles. We believe everyone
+            deserves a comfortable retreat, whether for a few hours or several
+            days, without compromising on quality or breaking the bank.
           </p>
         </div>
       </section>
