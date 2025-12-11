@@ -1,13 +1,8 @@
-'use client';
-
-import AddUnitModal from "@/Components/admin/Owners/AddUnitModal";
-import PaymentSettingsModal from "./PaymentSettingsModal";
+import OwnerDashboard from "@/Components/admin/Owners/OwnerDashboardPage";
 
 const OwnerPage = () => {
-  return (
-    // <AddUnitModal />
-    <PaymentSettingsModal />
-  )
-}
 
-export default OwnerPage
+  return <OwnerDashboard />
+};
+
+export default OwnerPage;

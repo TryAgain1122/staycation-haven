@@ -32,7 +32,7 @@ const RoomCard = ({ room, mode = 'browse' }: RoomCardsProps) => {
 
   const handleSelect = () => {
     // Navigate to room details for booking
-    router.push(`/Rooms/${room.id}`);
+    router.push(`/rooms/${room.id}`);
   };
   return (
     <div className="bg-white rounded-t-lg sm:rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:scale-105 animate-fade-in slide-in-from-bottom duration-500">
@@ -114,7 +114,7 @@ const RoomCard = ({ room, mode = 'browse' }: RoomCardsProps) => {
             </button>
           ) : (
             // BOOK NOW button for homepage browse
-            <Link href={`/Rooms/${room.id}`}>
+            <Link href={`/rooms/${room.id}`}>
               <button className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold px-4 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 text-sm sm:text-base whitespace-nowrap">
                 BOOK NOW
               </button>

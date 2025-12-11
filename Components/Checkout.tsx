@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import { DatePicker } from "@nextui-org/date-picker";
 import { TimeInput } from "@nextui-org/date-input";
 import { parseDate, parseTime } from "@internationalized/date";
+import type { DateValue } from "@react-types/calendar";
+import type { TimeValue } from "@react-types/datepicker";
 import axios from "axios";
 import {
   Calendar,
@@ -451,10 +453,11 @@ const handleSubmit = async (e: React.FormEvent) => {
                     <div>
                       <DatePicker
                         label="Check-in Date *"
-                        value={bookingData.checkInDate ? parseDate(bookingData.checkInDate) : undefined}
-                        onChange={(date) => {
+                        value={bookingData.checkInDate ? parseDate(bookingData.checkInDate) as any : undefined}
+                        onChange={(date: any) => {
                           if (date) {
-                            dispatch(setCheckInDate(date.toString()));
+                            const dateStr = `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`;
+                            dispatch(setCheckInDate(dateStr));
                           }
                         }}
                         isRequired
@@ -468,10 +471,11 @@ const handleSubmit = async (e: React.FormEvent) => {
                     <div>
                       <DatePicker
                         label="Check-out Date *"
-                        value={bookingData.checkOutDate ? parseDate(bookingData.checkOutDate) : undefined}
-                        onChange={(date) => {
+                        value={bookingData.checkOutDate ? parseDate(bookingData.checkOutDate) as any : undefined}
+                        onChange={(date: any) => {
                           if (date) {
-                            dispatch(setCheckOutDate(date.toString()));
+                            const dateStr = `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`;
+                            dispatch(setCheckOutDate(dateStr));
                           }
                         }}
                         isRequired
@@ -485,12 +489,13 @@ const handleSubmit = async (e: React.FormEvent) => {
                     <div>
                       <TimeInput
                         label="Check-in Time *"
-                        value={formData.checkInTime ? parseTime(formData.checkInTime) : undefined}
-                        onChange={(time) => {
+                        value={formData.checkInTime ? parseTime(formData.checkInTime) as any : undefined}
+                        onChange={(time: any) => {
                           if (time) {
+                            const timeStr = `${String(time.hour).padStart(2, '0')}:${String(time.minute).padStart(2, '0')}`;
                             setFormData({
                               ...formData,
-                              checkInTime: time.toString(),
+                              checkInTime: timeStr,
                             });
                           }
                         }}
@@ -505,12 +510,13 @@ const handleSubmit = async (e: React.FormEvent) => {
                     <div>
                       <TimeInput
                         label="Check-out Time *"
-                        value={formData.checkOutTime ? parseTime(formData.checkOutTime) : undefined}
-                        onChange={(time) => {
+                        value={formData.checkOutTime ? parseTime(formData.checkOutTime) as any : undefined}
+                        onChange={(time: any) => {
                           if (time) {
+                            const timeStr = `${String(time.hour).padStart(2, '0')}:${String(time.minute).padStart(2, '0')}`;
                             setFormData({
                               ...formData,
-                              checkOutTime: time.toString(),
+                              checkOutTime: timeStr,
                             });
                           }
                         }}

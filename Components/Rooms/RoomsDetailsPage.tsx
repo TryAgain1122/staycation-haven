@@ -56,7 +56,7 @@ const RoomsDetailsPage = ({ room, onBack }: RoomsDetailsPageProps) => {
       location: room.location,
       tower: room.tower,
     }));
-    router.push('/Checkout');
+    router.push('/checkout');
   };
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
